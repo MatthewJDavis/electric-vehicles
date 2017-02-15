@@ -4,7 +4,7 @@
    [string] $resourceGroupName,
    [hashtable] $appsettings
 )
-
+# pass a hashtable to set webapp settings e.g. @{"apikey" = "myapikey"; "key" = "value"}
 $params = @{
     'Name' = $functionAppName;
      'AppServicePlan' = $appServicePlan;

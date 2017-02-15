@@ -21,6 +21,7 @@ function New-ApiQuery($uri) {
     }
 }
 
+# create dir on server if not present
 if (-not (Test-Path -Path $path) ){
     New-Item -Path $path -ItemType Directory
 }

@@ -2,12 +2,31 @@ Import-Module -Name Azure.Storage
 $sasToken = $($env:sasstring)
 $outStorAcctName = $($env:outStorAcctName)
 $container = $($env:containername)
+$key = $($env:apikey)
+
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 $fileName = 'newElectricVehicles.JSON'
 $path = 'D:\home\site\temp\'
 
-# create dummy file - this will be json returned from API
-New-Item "$path$fileName" -ItemType file -Value "test" -Force
+function New-ApiQuery($uri) {
+    try
+    {
+        $apiResponse = Invoke-RestMethod -Method Get -Uri $uri 
+        Return $apiResponse
+    }
+    catch 
+    {
+        Write-Output "${in}: Error calling API"
+        Return $false
+    }
+}
+
+#get all the makes for 2017
+$makes = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=2017&view=basic&fmt=json&api_key=$key")
+
+
+# create a file with the data returned from the API query
+$makes | ConvertTo-Json | Out-File "$path$fileName" -Force
 
 $blob = Set-AzureStorageBlobContent -File "$path$fileName" -Container $container -Blob $fileName -BlobType Block -Context $ctx -Force
 

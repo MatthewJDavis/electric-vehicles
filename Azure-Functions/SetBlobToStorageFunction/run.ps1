@@ -21,6 +21,10 @@ function New-ApiQuery($uri) {
     }
 }
 
+if (-not (Test-Path -Path $path) ){
+    New-Item -Path $path -ItemType Directory
+}
+
 #get all the makes for 2017
 $makes = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=2017&view=basic&fmt=json&api_key=$key")
 

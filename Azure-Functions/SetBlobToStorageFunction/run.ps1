@@ -1,6 +1,6 @@
 Import-Module -Name Azure.Storage
 $sasToken = $($env:sasstring)
-$outStorAcctName = $($env:storagename)
+$outStorAcctName = $($env:outStorAcctName)
 $container = $($env:containername)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 $fileName = 'newElectricVehicles.JSON'

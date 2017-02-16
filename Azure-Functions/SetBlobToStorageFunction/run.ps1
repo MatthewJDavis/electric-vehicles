@@ -29,6 +29,8 @@ if (-not (Test-Path -Path $path) ){
 #get all the makes for 2017
 $makes = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=2017&view=basic&fmt=json&api_key=$key")
 
+#get all of the styles for the new models in 2017
+$styles = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/chevrolet/models?state=new&year=2017&view=basic&fmt=json&api_key=$key")
 
 # create a file with the data returned from the API query
 $makes | ConvertTo-Json | Out-File "$path$fileName" -Force

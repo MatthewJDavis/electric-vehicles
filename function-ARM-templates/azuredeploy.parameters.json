@@ -16,6 +16,18 @@
     },
     "apiKey": {
       "value": null
+    },
+    "sasString": {
+      "value": null
+    },
+    "containerName": {
+      "value": null
+    },
+    "outStorAcctName": {
+      "value": null
+    },
+    "functionVersion": {
+      "value": null
     }
   }
 }

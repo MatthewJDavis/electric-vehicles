@@ -6,7 +6,7 @@ $key = $($env:apikey)
 
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 $fileName = 'newElectricVehicles.JSON'
-$path = 'D:\home\site\temp\'
+$path = 'D:\home\data\temp\'
 
 function New-ApiQuery($uri) {
     try

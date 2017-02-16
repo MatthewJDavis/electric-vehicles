@@ -17,6 +17,10 @@
     "functionName": {
       "defaultValue": "functionmd",
       "type": "string"
+    },
+    "apiKey": {
+      "defaultValue": "fakekey",
+      "type": "string"
     }
   },
   "variables": {},
@@ -99,7 +103,8 @@
           ],
           "properties": {
             "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(parameters('storageAccountName'),'2015-05-01-preview').key1)]",
-            "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(parameters('storageAccountName'),'2015-05-01-preview').key1)]"
+            "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(parameters('storageAccountName'),'2015-05-01-preview').key1)]",
+            "apikey": "parameters('apiKey')"
           }
         }
 

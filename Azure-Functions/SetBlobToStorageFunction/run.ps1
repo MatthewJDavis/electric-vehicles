@@ -43,11 +43,11 @@ foreach ($id in $styles.models.years.styles.id)
  
     $engine = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id/engines?availability=standard&fmt=json&api_key=$key")
  
-    if ($engine.engines.fueltype -like "*electric")
+    if ($engine.engines.fueltype -like "*electric*")
     {
         Write-Output "electric"
         $elecVehicle = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id?view=full&fmt=json&api_key=$key")
-        $elecVehicle | Out-File -FilePath $path$fileName\new-electric-vehicle.json -Append -Force
+        $elecVehicle | ConvertTo-Json | Out-File -FilePath $path$fileName -Append -Force
     }   
 }
 

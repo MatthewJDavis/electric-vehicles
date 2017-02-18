@@ -14,9 +14,11 @@ function New-ApiQuery($uri) {
         $apiResponse = Invoke-RestMethod -Method Get -Uri $uri 
         Return $apiResponse
     }
-    catch 
+    catch [System.Net.WebException]
     {
-        Write-Output "${in}: Error calling API"
+        Write-Output 'Error calling Edumunds API'
+        Write-Output $_.Exception.Message
+        Write-Output $_.ErrorDetails.Message
         Return $false
     }
 }

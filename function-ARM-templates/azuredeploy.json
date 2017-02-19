@@ -38,7 +38,7 @@
       "defaultValue": "",
       "type": "string"
     },
-    "tempDirPath": {
+    "outFilePath": {
       "defaultValue": "",
       "type": "string"
     },
@@ -134,7 +134,7 @@
             "outstoracctname": "[parameters('outStorAcctName')]",
             "storageaccountname": "[parameters('storageAccountName')]",
             "outFileName": "[parameters('outFileName')]",
-            "tempDirPath": "[parameters('tempDirPath')]",
+            "tempDirPath": "[parameters('outFilePath')]",
             "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]"
           }
         }

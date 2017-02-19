@@ -4,7 +4,7 @@ $outStorAcctName = $($env:outStorAcctName)
 $container = $($env:containername)
 $key = $($env:apikey)
 $fileName = $($env:outFileName)
-$path = $($env:tempDirPath)
+$path = $($env:outFilePath)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 
 # check to see if a year is requested and make sure it is greater than one year in the future

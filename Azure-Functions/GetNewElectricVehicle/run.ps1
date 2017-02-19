@@ -44,7 +44,18 @@ if (-not (Test-Path -Path $path) ){
 #get all the makes for the year requested
 $makes = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=$year&view=basic&fmt=json&api_key=$key")
 
-#get all of the styles for the new models
+#get all of the styles for the new models- not used because of API call limit of 25 calls per day
+<#
+$styles = @()
+
+foreach ($model in $models)
+{
+    Write-Output $model
+    $styles += New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/$model/models?state=new&year=$year&view=basic&fmt=json&api_key=$key")
+}
+#>
+
+#just get the styles of chevrolet due to API limit, should return 2 electric vehicles
 $styles = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/chevrolet/models?state=new&year=$year&view=basic&fmt=json&api_key=$key")
 
 #get engine details for styles and check to see if fuel type is electric

@@ -42,7 +42,7 @@
       "defaultValue": "",
       "type": "string"
     },
-    "readSasToken": {
+    "readSasString": {
       "defaultValue": "",
       "type": "string"
     },
@@ -137,9 +137,9 @@
             "containername": "[parameters('containerName')]",
             "outstoracctname": "[parameters('outStorAcctName')]",
             "storageaccountname": "[parameters('storageAccountName')]",
-            "outFileName": "[parameters('outFileName')]",
-            "outFilePath": "[parameters('outFilePath')]",
-            "readSasToken": "[parameters('readSasToken')]",
+            "outfilename": "[parameters('outFileName')]",
+            "outfilepath": "[parameters('outFilePath')]",
+            "readsasstring": "[parameters('readSasString')]",
             "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]"
           }
         }

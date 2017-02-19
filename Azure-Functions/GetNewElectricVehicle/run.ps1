@@ -1,6 +1,6 @@
 Import-Module -Name Azure.Storage
 $sasToken = $($env:sasstring)
-$readSasToken = $($readSasToken)
+$readSasToken = $(env:$readsasstring)
 $outStorAcctName = $($env:outStorAcctName)
 $container = $($env:containername)
 $key = $($env:apikey)

@@ -7,7 +7,7 @@ $fileName = $($env:outFileName)
 $path = $($env:outFilePath)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 
-# check to see if a year is requested and make sure it is not greater than one year in the future
+#check for requested year. Set to this year if no request or requested year is too far in the future
 if ($req_query_year)
 {
     $year = $req_query_year
@@ -19,7 +19,6 @@ if ($req_query_year)
 {
     $year = $year = (Get-Date).Year
 }
-
 
 function New-ApiQuery($uri) {
     try
@@ -36,15 +35,15 @@ function New-ApiQuery($uri) {
     }
 }
 
-# create dir on server if not present
+#create dir on server if not present
 if (-not (Test-Path -Path $path) ){
     New-Item -Path $path -ItemType Directory
 }
 
-#get all the makes for 2017
+#get all the makes for the year requested
 $makes = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=$year&view=basic&fmt=json&api_key=$key")
 
-#get all of the styles for the new models in 2017
+#get all of the styles for the new models
 $styles = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/chevrolet/models?state=new&year=$year&view=basic&fmt=json&api_key=$key")
 
 #get engine details for styles and check to see if fuel type is electric
@@ -63,12 +62,10 @@ foreach ($id in $styles.models.years.styles.id)
         $elecVehicle | ConvertTo-Json | Out-File -FilePath $path$fileName -Append -Force
     }   
 }
-# create a file with the data returned from the API query
-$makes | ConvertTo-Json | Out-File "$path$fileName" -Force
 
 #upload file to Azure storage
 $blob = Set-AzureStorageBlobContent -File "$path$fileName" -Container $container -Blob $fileName -BlobType Block -Context $ctx -Force
 
-# Remove-Item -Path "$path$fileName" -Force
+Remove-Item -Path "$path$fileName" -Force
 
 Out-File -Encoding ascii -FilePath $res -inputObject "Copy and paste the following link into your browser address bar to download the new electric vehicle file: https://$outStorAcctName.blob.core.windows.net/$container/$fileName$sasToken "

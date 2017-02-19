@@ -134,7 +134,7 @@
             "outstoracctname": "[parameters('outStorAcctName')]",
             "storageaccountname": "[parameters('storageAccountName')]",
             "outFileName": "[parameters('outFileName')]",
-            "tempDirPath": "[parameters('outFilePath')]",
+            "outFilePath": "[parameters('outFilePath')]",
             "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]"
           }
         }

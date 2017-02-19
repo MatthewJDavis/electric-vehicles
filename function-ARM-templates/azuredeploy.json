@@ -42,6 +42,10 @@
       "defaultValue": "",
       "type": "string"
     },
+    "readSasToken": {
+      "defaultValue": "",
+      "type": "string"
+    },
     "functionVersion": {
       "defaultValue": "~1",
       "type": "string"
@@ -135,6 +139,7 @@
             "storageaccountname": "[parameters('storageAccountName')]",
             "outFileName": "[parameters('outFileName')]",
             "outFilePath": "[parameters('outFilePath')]",
+            "readSasToken": "[parameters('readSasToken')]",
             "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]"
           }
         }

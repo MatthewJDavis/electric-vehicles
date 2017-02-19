@@ -32,6 +32,9 @@
     "outFilePath": {
       "value": null
     },
+    "readSasToken": {
+      "value": null
+    },
     "functionVersion": {
       "value": null
     }

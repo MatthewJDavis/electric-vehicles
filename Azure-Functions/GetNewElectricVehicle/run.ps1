@@ -1,5 +1,6 @@
 Import-Module -Name Azure.Storage
 $sasToken = $($env:sasstring)
+$readSasToken = $($readSasToken)
 $outStorAcctName = $($env:outStorAcctName)
 $container = $($env:containername)
 $key = $($env:apikey)
@@ -68,4 +69,4 @@ $blob = Set-AzureStorageBlobContent -File "$path$fileName" -Container $container
 
 Remove-Item -Path "$path$fileName" -Force
 
-Out-File -Encoding ascii -FilePath $res -inputObject "Copy and paste the following link into your browser address bar to download the new electric vehicle file: https://$outStorAcctName.blob.core.windows.net/$container/$fileName$sasToken "
+Out-File -Encoding ascii -FilePath $res -inputObject "Copy and paste the following link into your browser address bar to download the new electric vehicle file: https://$outStorAcctName.blob.core.windows.net/$container/$fileName$readSasToken "

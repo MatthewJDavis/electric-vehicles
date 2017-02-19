@@ -7,7 +7,7 @@ $fileName = $($env:outFileName)
 $path = $($env:outFilePath)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 
-# check to see if a year is requested and make sure it is greater than one year in the future
+# check to see if a year is requested and make sure it is not greater than one year in the future
 if ($req_query_year)
 {
     $year = $req_query_year

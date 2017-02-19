@@ -7,6 +7,20 @@ $fileName = $($env:outFileName)
 $path = $($env:tempDirPath)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 
+# check to see if a year is requested and make sure it is greater than one year in the future
+if ($req_query_year)
+{
+    $year = $req_query_year
+    if ($year -gt (Get-Date).AddYears(1).Year)
+    {
+        $year = (Get-Date).Year
+    }
+} else
+{
+    $year = $year = (Get-Date).Year
+}
+
+
 function New-ApiQuery($uri) {
     try
     {

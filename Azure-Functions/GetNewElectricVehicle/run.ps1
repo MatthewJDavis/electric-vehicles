@@ -3,10 +3,9 @@ $sasToken = $($env:sasstring)
 $outStorAcctName = $($env:outStorAcctName)
 $container = $($env:containername)
 $key = $($env:apikey)
-
+$fileName = $($env:outFileName)
+$path = $($env:tempDirPath)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
-$fileName = 'newElectricVehicles.JSON'
-$path = 'D:\home\data\temp\'
 
 function New-ApiQuery($uri) {
     try
@@ -50,10 +49,6 @@ foreach ($id in $styles.models.years.styles.id)
         $elecVehicle | ConvertTo-Json | Out-File -FilePath $path$fileName -Append -Force
     }   
 }
-
-
-
-
 # create a file with the data returned from the API query
 $makes | ConvertTo-Json | Out-File "$path$fileName" -Force
 

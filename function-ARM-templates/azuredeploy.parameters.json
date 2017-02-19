@@ -26,6 +26,12 @@
     "outStorAcctName": {
       "value": null
     },
+    "outFileName": {
+      "value": null
+    },
+    "tempDirPath": {
+      "value": null
+    },
     "functionVersion": {
       "value": null
     }

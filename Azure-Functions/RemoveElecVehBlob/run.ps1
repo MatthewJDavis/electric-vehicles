@@ -2,12 +2,11 @@ Import-Module -Name Azure.Storage
 $sasToken = $($env:sasstring)
 $storAcctName = $($env:outStorAcctName)
 $container = $($env:containername)
+$blobName = $($env:outFileName)
 $ctx = New-AzureStorageContext -StorageAccountName $storAcctName -SasToken $sasToken 
-$blobName = 'newElectricVehicles.JSON'
 
 # Remove blob daily to comply with terms of service http://developer.edmunds.com/terms_of_service/index.html
 $blob = Get-AzureStorageBlob -Container $container -Context $ctx | Where-Object -Property Name -eq $blobName
-
 
 if ($blob -ne $null)
 {

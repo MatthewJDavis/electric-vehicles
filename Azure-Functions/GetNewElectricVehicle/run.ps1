@@ -42,10 +42,10 @@ if (-not (Test-Path -Path $path) ){
 }
 
 #get all the makes for 2017
-$makes = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=2017&view=basic&fmt=json&api_key=$key")
+$makes = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=$year&view=basic&fmt=json&api_key=$key")
 
 #get all of the styles for the new models in 2017
-$styles = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/chevrolet/models?state=new&year=2017&view=basic&fmt=json&api_key=$key")
+$styles = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/chevrolet/models?state=new&year=$year&view=basic&fmt=json&api_key=$key")
 
 #get engine details for styles and check to see if fuel type is electric
 foreach ($id in $styles.models.years.styles.id)

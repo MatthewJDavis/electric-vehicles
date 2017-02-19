@@ -17,6 +17,26 @@
     "functionName": {
       "defaultValue": "functionmd",
       "type": "string"
+    },
+    "apiKey": {
+      "defaultValue": "fakekey",
+      "type": "string"
+    },
+    "sasString": {
+      "defaultValue": "safdj?ak404",
+      "type": "string"
+    },
+    "containerName": {
+      "defaultValue": "out-container-name",
+      "type": "string"
+    },
+    "outStorAcctName": {
+      "defaultValue": "storforfileoutput",
+      "type": "string"
+    },
+    "functionVersion": {
+      "defaultValue": "~1",
+      "type": "string"
     }
   },
   "variables": {},
@@ -99,7 +119,13 @@
           ],
           "properties": {
             "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(parameters('storageAccountName'),'2015-05-01-preview').key1)]",
-            "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(parameters('storageAccountName'),'2015-05-01-preview').key1)]"
+            "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(parameters('storageAccountName'),'2015-05-01-preview').key1)]",
+            "apikey": "[parameters('apiKey')]",
+            "sasstring": "[parameters('sasString')]",
+            "containername": "[parameters('containerName')]",
+            "outstoracctname": "[parameters('outStorAcctName')]",
+            "storageaccountname": "[parameters('storageAccountName')]",
+            "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]"
           }
         }
 

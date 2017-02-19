@@ -63,7 +63,7 @@ foreach ($id in $styles.models.years.styles.id)
 {
     $id = $id.ToString()
        
-    Start-Sleep -Seconds 1 # to prevent going over API rate limit
+    Start-Sleep -Seconds .25 # to prevent going over API rate limit
  
     $engine = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id/engines?availability=standard&fmt=json&api_key=$key")
  

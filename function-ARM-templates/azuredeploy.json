@@ -49,6 +49,9 @@
     "functionVersion": {
       "defaultValue": "~1",
       "type": "string"
+    },
+    "errorFileName": {
+      "type": "string"
     }
   },
   "variables": {},
@@ -140,6 +143,7 @@
             "outfilename": "[parameters('outFileName')]",
             "outfilepath": "[parameters('outFilePath')]",
             "readsasstring": "[parameters('readSasString')]",
+            "errorFileName": "[parameters('errorFileName')]",
             "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]"
           }
         }

@@ -35,6 +35,9 @@
     "readSasString": {
       "value": null
     },
+    "errorFileName": {
+      "value": null
+    },
     "functionVersion": {
       "value": null
     }

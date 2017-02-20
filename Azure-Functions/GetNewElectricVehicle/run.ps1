@@ -6,6 +6,7 @@ $container = $($env:containername)
 $key = $($env:apikey)
 $fileName = $($env:outFileName)
 $path = $($env:outFilePath)
+$errorFileName = $($env:errorFileName)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 
 #check for requested year. Set to this year if no request or requested year is too far in the future
@@ -29,10 +30,10 @@ function New-ApiQuery($uri) {
     }
     catch [System.Net.WebException]
     {
-        Write-Output 'Error calling Edumunds API'
-        Write-Output $_.Exception.Message
-        Write-Output $_.ErrorDetails.Message
-        Return $false
+        $apiError = @()
+        $apiError += 'Error calling Edumunds API'
+        $apiError += $_.Exception.Message
+        $apiError += $_.ErrorDetails.Message
     }
 }
 
@@ -66,10 +67,15 @@ foreach ($id in $styles.models.years.styles.id)
     Start-Sleep -Seconds .25 # to prevent going over API rate limit
  
     $engine = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id/engines?availability=standard&fmt=json&api_key=$key")
- 
-    if ($engine.engines.fueltype -like "*electric*")
+    
+    if ($engine[3] -eq $false)
     {
-        Write-Output "electric"
+        $engine | Out-File -FilePath $path$errorFileName -Append -Force
+        break
+    }
+    elseif ($engine.engines.fueltype -like "*electric*")
+    {
+        Write-Output "electric vehicle found"
         $elecVehicle = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id?view=full&fmt=json&api_key=$key")
         $elecVehicle | ConvertTo-Json | Out-File -FilePath $path$fileName -Append -Force
     }   

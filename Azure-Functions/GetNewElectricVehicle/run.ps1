@@ -27,6 +27,11 @@ function Set-ElecVehicleBlob()
 {    
     $blob = Set-AzureStorageBlobContent -File "$path$fileName" -Container $container -Blob $fileName -BlobType Block -Context $ctx -Force
 }
+#send the response to the client via the Azure function output var $res
+function Send-ElechVehicleResponse()
+{
+    Out-File -Encoding ascii -FilePath $res -inputObject "Copy and paste the following link into your browser address bar to download the new electric vehicle file: https://$outStorAcctName.blob.core.windows.net/$container/$fileName$readSasToken "
+}
 
 function New-ApiQuery($uri) {
     try
@@ -51,12 +56,10 @@ function Test-ApiResponse($response)
     {
         $response[2] | Out-File -FilePath $path$fileName -Append -Force
         Set-ElecVehicleBlob
+        Send-ElechVehicleResponse
         break
     }
 }
-
-
-
 
 #create dir on server if not present
 if (-not (Test-Path -Path $path) ){
@@ -82,12 +85,14 @@ foreach ($model in $models)
 $styles = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/chevrolet/models?state=new&year=$year&view=basic&fmt=json&api_key=$key")
 Test-ApiResponse($styles)
 
+Start-Sleep -Seconds 1 # to prevent going over API CPS rate limit 
+
 #get engine details for styles and check for an error, if no error check if fuel type is electric and add to file
 foreach ($id in $styles.models.years.styles.id)
 {
     $id = $id.ToString()
        
-    Start-Sleep -Seconds .25 # to prevent going over API rate limit
+    Start-Sleep -Seconds .3 # to prevent going over API CPS rate limit
  
     $engine = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id/engines?availability=standard&fmt=json&api_key=$key")
     
@@ -102,7 +107,7 @@ foreach ($id in $styles.models.years.styles.id)
 }
 
 Set-ElecVehicleBlob
+Send-ElechVehicleResponse
 
 Remove-Item -Path "$path$fileName" -Force
 
-Out-File -Encoding ascii -FilePath $res -inputObject "Copy and paste the following link into your browser address bar to download the new electric vehicle file: https://$outStorAcctName.blob.core.windows.net/$container/$fileName$readSasToken "

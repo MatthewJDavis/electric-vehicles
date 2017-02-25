@@ -19,7 +19,7 @@ if ($req_query_year)
     }
 } else
 {
-    $year = $year = (Get-Date).Year
+   $year = (Get-Date).Year
 }
 
 #upload file to Azure storage

@@ -1,9 +1,7 @@
-﻿<#
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-. "$here\$sut"
-#>
-Import-Module C:\git\electric-vehicles\Azure-Functions\GetNewElectricVehicle\modules\PSNewElectricVehicles.psm1
+﻿$ThisModule = "$($MyInvocation.MyCommand.Path -replace '\.Tests\.ps1$', '').psm1"
+$ThisModuleName = (($ThisModule | Split-Path -Leaf) -replace '\.psm1')
+Get-Module -Name $ThisModuleName -All | Remove-Module -Force
+Import-Module -Name $ThisModule -Force -ErrorAction Stop
 
 Describe "PSNewElectricVehicles" {
     Context year{

@@ -15,9 +15,6 @@ function Test-Year
     [OutputType([string])]
     Param
     (
-        # Param1 help description
-        [Parameter(ValueFromPipelineByPropertyName=$true,
-                   Position=0)]
         [string]
         $Year = (Get-Date).Year
     )

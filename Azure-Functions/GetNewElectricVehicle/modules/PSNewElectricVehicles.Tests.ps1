@@ -18,4 +18,18 @@ Describe "PSNewElectricVehicles" {
             Test-Year | Should Be (Get-Date).Year
         }
     }
+    Context "New-ApiQuery" {
+        It "Returns false in the 4th position of the array on an error call" {
+            $query = New-ApiQuery -Uri 'https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=2017&view=basic&fmt=json&api_key=12345678'
+            $query[2] | Should Be $false
+        }
+        It 'Returns a PSCustomObject on a successful call to an API' {
+            $query = New-ApiQuery -Uri 'http://api.fixer.io/latest'
+            $query.GetType().Name | Should Be 'PSCustomObject'
+        }
+    }
+    Context 'Test-ApiResponse' {
+        
+    }
+    
 }

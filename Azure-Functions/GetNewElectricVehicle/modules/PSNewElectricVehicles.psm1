@@ -1,26 +1,22 @@
-<#
-.Synopsis
-   Short description
-.DESCRIPTION
-   Long description
-.EXAMPLE
-   Example of how to use this cmdlet
-.EXAMPLE
-   Another example of how to use this cmdlet
-#>
-function Test-Year
-{
-    [CmdletBinding()]
-    [Alias()]
-    [OutputType([string])]
-    Param
-    (
-        [string]
-        $Year = (Get-Date).Year
-    )
-    if ($Year -gt (Get-Date).AddYears(1).Year)
+#Module vars
+    $ModulePath = $PSScriptRoot
+
+#Get public and private function definition files.
+    $Public  = Get-ChildItem $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue
+    $Private = Get-ChildItem $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue
+    [string[]]$PrivateModules = Get-ChildItem $PSScriptRoot\Private -ErrorAction SilentlyContinue |
+        Where-Object {$_.PSIsContainer} |
+        Select -ExpandProperty FullName
+
+# Dot source the files
+    Foreach($import in @($Public + $Private))
     {
-        $Year = (Get-Date).Year
+        Try
+        {
+            . $import.fullname
+        }
+        Catch
+        {
+            Write-Error "Failed to import function $($import.fullname): $_"
+        }
     }
-    Return $Year
-}

@@ -57,8 +57,8 @@ foreach ($id in $styles.models.years.styles.id)
     }   
 }
 
-Set-ElectricVehicleBlob
-Send-ElectricVehicleResponse
+Set-ElectricVehicleBlob -Path $path -FileName $fileName -Container $container -StorageContext $ctx 
+Send-ElectricVehicleResponse -FilePath $path$fileName -OutStorAcctName $outStorAcctName -Container $container -FileName $fileName -ReadSasToken $readSasToken
 
 Remove-Item -Path "$path$fileName" -Force
 

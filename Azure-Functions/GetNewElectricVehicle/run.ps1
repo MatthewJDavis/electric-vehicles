@@ -9,57 +9,7 @@ $path = $($env:outFilePath)
 $errorFileName = $($env:errorFileName)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
 
-#check for requested year. Set to this year if no request or requested year is too far in the future
-if ($req_query_year)
-{
-    $year = $req_query_year
-    if ($year -gt (Get-Date).AddYears(1).Year)
-    {
-        $year = (Get-Date).Year
-    }
-} else
-{
-   $year = (Get-Date).Year
-}
-
-#upload file to Azure storage
-function Set-ElecVehicleBlob()
-{    
-    $blob = Set-AzureStorageBlobContent -File "$path$fileName" -Container $container -Blob $fileName -BlobType Block -Context $ctx -Force
-}
-#send the response to the client via the Azure function output var $res
-function Send-ElechVehicleResponse()
-{
-    Out-File -Encoding ascii -FilePath $res -inputObject "Copy and paste the following link into your browser address bar to download the new electric vehicle file: https://$outStorAcctName.blob.core.windows.net/$container/$fileName$readSasToken "
-}
-
-function New-ApiQuery($uri) {
-    try
-    {
-        $apiResponse = Invoke-RestMethod -Method Get -Uri $uri 
-        Return $apiResponse
-    }
-    catch [System.Net.WebException]
-    {
-        $apiError = @()
-        $apiError += 'Error calling Edumunds API'
-        $apiError += $_.Exception.Message
-        $apiError += $_.ErrorDetails.Message
-        Return $apiError + $false
-    }
-}
-
-# stop the function if there is an error returned and upload details to blob storage
-function Test-ApiResponse($response)
-{
-    if($response[3] -eq $false)
-    {
-        $response[2] | Out-File -FilePath $path$fileName -Append -Force
-        Set-ElecVehicleBlob
-        Send-ElechVehicleResponse
-        break
-    }
-}
+Test-Year -Year $req_query_year
 
 #create dir on server if not present
 if (-not (Test-Path -Path $path) ){
@@ -107,8 +57,8 @@ foreach ($id in $styles.models.years.styles.id)
     }   
 }
 
-Set-ElecVehicleBlob
-Send-ElechVehicleResponse
+Set-ElectricVehicleBlob
+Send-ElectricVehicleResponse
 
 Remove-Item -Path "$path$fileName" -Force
 

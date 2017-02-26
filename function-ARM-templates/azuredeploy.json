@@ -34,8 +34,23 @@
       "defaultValue": "storforfileoutput",
       "type": "string"
     },
+    "outFileName": {
+      "defaultValue": "",
+      "type": "string"
+    },
+    "outFilePath": {
+      "defaultValue": "",
+      "type": "string"
+    },
+    "readSasString": {
+      "defaultValue": "",
+      "type": "string"
+    },
     "functionVersion": {
       "defaultValue": "~1",
+      "type": "string"
+    },
+    "errorFileName": {
       "type": "string"
     }
   },
@@ -125,6 +140,10 @@
             "containername": "[parameters('containerName')]",
             "outstoracctname": "[parameters('outStorAcctName')]",
             "storageaccountname": "[parameters('storageAccountName')]",
+            "outfilename": "[parameters('outFileName')]",
+            "outfilepath": "[parameters('outFilePath')]",
+            "readsasstring": "[parameters('readSasString')]",
+            "errorFileName": "[parameters('errorFileName')]",
             "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]"
           }
         }

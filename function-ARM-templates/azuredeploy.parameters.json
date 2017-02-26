@@ -26,6 +26,18 @@
     "outStorAcctName": {
       "value": null
     },
+    "outFileName": {
+      "value": null
+    },
+    "outFilePath": {
+      "value": null
+    },
+    "readSasString": {
+      "value": null
+    },
+    "errorFileName": {
+      "value": null
+    },
     "functionVersion": {
       "value": null
     }

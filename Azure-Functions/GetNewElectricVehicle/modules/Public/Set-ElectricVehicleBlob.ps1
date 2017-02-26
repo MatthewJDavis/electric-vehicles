@@ -8,7 +8,7 @@
 .EXAMPLE
    Another example of how to use this cmdlet
 #>
-function Verb-Noun
+function Set-ElectricVehicleBlob
 {
     [CmdletBinding()]
     [Alias()]

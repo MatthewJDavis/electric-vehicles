@@ -29,6 +29,7 @@ function New-ApiQuery
         $apiError = @()
         $apiError += $_.Exception.Message
         $apiError += $_.ErrorDetails.Message
-        Return $apiError + $false
+        $apiError += $false
+        Return $apiError
     }
 }

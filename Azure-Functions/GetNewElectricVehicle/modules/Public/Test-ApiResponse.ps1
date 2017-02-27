@@ -16,11 +16,9 @@ function Test-ApiResponse
         $Response
     )
 
-    if($Response[2] -eq $false)
-    {
-        $Response[2] | Out-File -FilePath $path$fileName -Append -Force
-        Set-ElectricVehicleBlob
-        Send-ElectricVehicleResponse
-        break
+    if ($Response[2] -eq $false) {
+    $errorMessage = $Response[1] | ConvertFrom-Json
+    $errorMessage | ConvertTo-Json | Out-File -FilePath $path$fileName -Append -Force
+    break
     }
 }

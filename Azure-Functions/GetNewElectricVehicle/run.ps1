@@ -12,13 +12,23 @@ $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $s
 $year = Test-Year -Year $req_query_year
 
 #create dir on server if not present
-if (-not (Test-Path -Path $path) ){
+if (-not (Test-Path -Path $path) )
+{
     New-Item -Path $path -ItemType Directory
 }
 
+#helper function to set blob storage, send a response and end the function
+function Stop-GetNewElectricVehicle()
+{
+    Set-ElectricVehicleBlob -Path $path -FileName $fileName -Container $container -StorageContext $ctx 
+    Send-ElectricVehicleResponse -FilePath $path$fileName -OutStorAcctName $outStorAcctName -Container $container -FileName $fileName -ReadSasToken $readSasToken
+    break
+}
+
 #get all the makes for the year requested
-$makes = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=$year&view=basic&fmt=json&api_key=$key")
-Test-ApiResponse -Response $makes
+$makes = New-ApiQuery -Uri "https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=$year&view=basic&fmt=json&api_key=$key"
+
+$Response = Test-ApiResponse -Response $makes -Path $path -FileName $fileName
 
 Start-Sleep -Milliseconds 500 # to prevent going over API CPS rate limit 
 

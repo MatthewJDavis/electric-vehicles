@@ -12,12 +12,16 @@ function Test-ApiResponse
 {
     Param
     (
-        $Response
+        $Response,
+        [string]
+        $Path,
+        [string]
+        $FileName
     )
 
-    if ($Response[1] -eq $false) {
+    if ($Response[2] -eq $false) {
     $errorMessage = $Response[1] | ConvertFrom-Json
-    $errorMessage | ConvertTo-Json | Out-File -FilePath $path$fileName -Append -Force
+    $errorMessage | ConvertTo-Json | Out-File -FilePath $Path$FileName -Append -Force
     Return $false
     }
 }

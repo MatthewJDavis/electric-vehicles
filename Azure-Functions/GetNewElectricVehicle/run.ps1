@@ -12,13 +12,13 @@ $year = $requestBody.year
 
 $year = Test-Year -Year $year
 
-#create dir on server if not present
+#create dir on server if one is not already present
 if (-not (Test-Path -Path $path) )
 {
     New-Item -Path $path -ItemType Directory
 }
 
-#helper function to set blob storage, send a response and end the function
+#helper function to set blob storage, send a response and end the function if there is an error returned
 function Stop-GetNewElectricVehicle()
 {
     Set-ElectricVehicleBlob -Path $path -FileName $fileName -Container $container -StorageContext $ctx 

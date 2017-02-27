@@ -8,8 +8,9 @@ $fileName = $($env:outFileName)
 $path = $($env:outFilePath)
 $errorFileName = $($env:errorFileName)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
+$year = $requestBody.year
 
-$year = Test-Year -Year $req_query_year
+$year = Test-Year -Year $year
 
 #create dir on server if not present
 if (-not (Test-Path -Path $path) )
@@ -28,7 +29,11 @@ function Stop-GetNewElectricVehicle()
 #get all the makes for the year requested
 $makes = New-ApiQuery -Uri "https://api.edmunds.com/api/vehicle/v2/makes?state=new&year=$year&view=basic&fmt=json&api_key=$key"
 
-$Response = Test-ApiResponse -Response $makes -Path $path -FileName $fileName
+$makesResponse = Test-ApiResponse -Response $makes -Path $path -FileName $fileName
+
+if ($makesResponse -eq $false){
+    Stop-GetNewElectricVehicle
+}
 
 Start-Sleep -Milliseconds 500 # to prevent going over API CPS rate limit 
 
@@ -45,7 +50,11 @@ foreach ($model in $models)
 
 #just get the styles of chevrolet due to API limit, should return 2 electric vehicles
 $styles = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/chevrolet/models?state=new&year=$year&view=basic&fmt=json&api_key=$key")
-Test-ApiResponse -Response $styles
+
+$stylesResponse = Test-ApiResponse -Response $styles -Path $path -FileName $fileName
+if ($stylesResponse -eq $false){
+    Stop-GetNewElectricVehicle
+}
 
 Start-Sleep -Milliseconds 500 # to prevent going over API CPS rate limit 
 
@@ -58,7 +67,10 @@ foreach ($id in $styles.models.years.styles.id)
  
     $engine = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id/engines?availability=standard&fmt=json&api_key=$key")
     
-    Test-ApiResponse -Response $engine
+    $engineResponse = Test-ApiResponse -Response $engine -Path $path -FileName $fileName
+    if ($engineResponse -eq $false){
+        Stop-GetNewElectricVehicle
+    }
 
     if ($engine.engines.fueltype -like "*electric*")
     {

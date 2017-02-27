@@ -8,9 +8,8 @@ $fileName = $($env:outFileName)
 $path = $($env:outFilePath)
 $errorFileName = $($env:errorFileName)
 $ctx = New-AzureStorageContext -StorageAccountName $outStorAcctName -SasToken $sasToken 
-$year = $requestBody.year
 
-$year = Test-Year -Year $year
+$year = Test-Year -Year $req_query_year
 
 #create dir on server if one is not already present
 if (-not (Test-Path -Path $path) )

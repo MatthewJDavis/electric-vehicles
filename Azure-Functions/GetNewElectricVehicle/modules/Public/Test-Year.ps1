@@ -24,10 +24,9 @@ function Test-Year
     [OutputType([string])]
     Param
     (
-        [string]
-        $Year = (Get-Date).Year
+        $Year
     )
-    if ($Year -gt (Get-Date).AddYears(1).Year)
+    if ($Year -gt (Get-Date).AddYears(1).Year -or $Year -eq $null)
     {
         $Year = (Get-Date).Year
     }

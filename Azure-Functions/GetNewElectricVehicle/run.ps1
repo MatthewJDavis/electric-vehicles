@@ -67,16 +67,13 @@ foreach ($id in $styles.models.years.styles.id)
     $engine = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id/engines?availability=standard&fmt=json&api_key=$key")
     
     $engineResponse = Test-ApiResponse -Response $engine -Path $path -FileName $fileName
+    
     if ($engineResponse -eq $false){
         Stop-GetNewElectricVehicle
     }
-
-    if ($engine.engines.fueltype -like "*electric*")
-    {
-        Write-Output "electric vehicle found"
-        $elecVehicle = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id`?view=full&fmt=json&api_key=$key")
-        $elecVehicle | ConvertTo-Json | Out-File -FilePath $path$fileName -Append -Force
-    }   
+    else{
+        Test-EngineType -Engine $engine -Id $id -Key $key -Path $path -FileName $fileName
+    }
 }
 
 Set-ElectricVehicleBlob -Path $path -FileName $fileName -Container $container -StorageContext $ctx 

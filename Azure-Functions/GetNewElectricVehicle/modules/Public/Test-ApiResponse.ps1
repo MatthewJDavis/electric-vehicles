@@ -19,9 +19,10 @@ function Test-ApiResponse
         $FileName
     )
 
-    if ($Response[2] -eq $false) {
-    $errorMessage = $Response[1] | ConvertFrom-Json
-    $errorMessage | ConvertTo-Json | Out-File -FilePath $Path$FileName -Append -Force
-    Return $false
+    if ($Response[2] -eq $false) 
+    {
+        $errorMessage = $Response[1] | ConvertFrom-Json
+        $errorMessage | ConvertTo-Json | Out-File -FilePath $Path$FileName -Append -Force
+        Return $false
     }
 }

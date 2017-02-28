@@ -30,7 +30,8 @@ $makes = New-ApiQuery -Uri "https://api.edmunds.com/api/vehicle/v2/makes?state=n
 
 $makesResponse = Test-ApiResponse -Response $makes -Path $path -FileName $fileName
 
-if ($makesResponse -eq $false){
+if ($makesResponse -eq $false)
+{
     Stop-GetNewElectricVehicle
 }
 
@@ -51,7 +52,8 @@ foreach ($model in $models)
 $styles = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/chevrolet/models?state=new&year=$year&view=basic&fmt=json&api_key=$key")
 
 $stylesResponse = Test-ApiResponse -Response $styles -Path $path -FileName $fileName
-if ($stylesResponse -eq $false){
+if ($stylesResponse -eq $false)
+{
     Stop-GetNewElectricVehicle
 }
 
@@ -60,18 +62,18 @@ Start-Sleep -Milliseconds 500 # to prevent going over API CPS rate limit
 #get engine details for styles and check for an error, if no error check if fuel type is electric and add to file
 foreach ($id in $styles.models.years.styles.id)
 {
-    $id = $id.ToString()
-       
+    $id = $id.ToString()       
     Start-Sleep -Milliseconds 300 # to prevent going over API CPS rate limit
  
-    $engine = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id/engines?availability=standard&fmt=json&api_key=$key")
-    
+    $engine = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$id/engines?availability=standard&fmt=json&api_key=$key")    
     $engineResponse = Test-ApiResponse -Response $engine -Path $path -FileName $fileName
     
-    if ($engineResponse -eq $false){
+    if ($engineResponse -eq $false)
+    {
         Stop-GetNewElectricVehicle
     }
-    else{
+    else
+    {
         Test-EngineType -Engine $engine -Id $id -Key $key -Path $path -FileName $fileName
     }
 }

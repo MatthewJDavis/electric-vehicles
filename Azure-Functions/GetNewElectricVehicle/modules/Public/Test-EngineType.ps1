@@ -27,5 +27,4 @@ function Test-EngineType
         $elecVehicle = New-ApiQuery("https://api.edmunds.com/api/vehicle/v2/styles/$Id`?view=full&fmt=json&api_key=$Key")
         $elecVehicle | ConvertTo-Json | Out-File -FilePath $Path$FileName -Append -Force
     }   
-
 }

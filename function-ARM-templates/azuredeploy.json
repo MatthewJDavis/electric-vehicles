@@ -145,7 +145,7 @@
             "readsasstring": "[parameters('readSasString')]",
             "errorFileName": "[parameters('errorFileName')]",
             "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]",
-            "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[parameters('storageAccountName')]",
+            "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(parameters('storageAccountName'),'2015-05-01-preview').key1)]",
             "WEBSITE_CONTENTSHARE": "[parameters('functionName')]"
           }
         }

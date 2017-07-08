@@ -13,23 +13,55 @@
     "prodStorageAccountName": {
         "defaultValue": "prodelecstor39080",
         "type":"string"
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Standard_ZRS",
+        "Premium_LRS"
+      ],
+      "metadata": {
+        "description": "Storage Account type."
+      }
+    },
+    "blobEncryptionEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Enable or disable Blob encryption at Rest."
+      }
     }
   },
   "variables": { },
-  "resources": [
-            {
-                "type": "Microsoft.Storage/storageAccounts",
-                "apiVersion": "2015-06-15",
-                "location": "[parameters('location')]",
-                "name": "[parameters('devStorageAccountName')]",
-                "tags": {
-                    "Company": "Art of Shell LLC",
-                    "Website": "https://artofshell.com"
-                },
-                "properties": {
-                    "accountType": "Standard_LRS"
-                }
+   "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('devStorageAccountName')]",
+      "apiVersion": "2016-12-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
+      },
+      "tags": {
+          "Env": "Dev"
+      },
+      "kind": "Storage",
+      "properties": {
+        "encryption": {
+          "keySource": "Microsoft.Storage",
+          "services": {
+            "blob": {
+              "enabled": "[parameters('blobEncryptionEnabled')]"
             }
-   ],
+          }
+        }
+      }
+    }
+  ],
   "outputs": { }
 }
+

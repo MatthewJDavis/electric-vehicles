@@ -145,7 +145,8 @@
             "readsasstring": "[parameters('readSasString')]",
             "errorFileName": "[parameters('errorFileName')]",
             "FUNCTIONS_EXTENSION_VERSION": "[parameters('functionVersion')]",
-            "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[parameters('storageAccountName')]"
+            "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[parameters('storageAccountName')]",
+            "WEBSITE_CONTENTSHARE": "[parameters('functionName')]"
           }
         }
 

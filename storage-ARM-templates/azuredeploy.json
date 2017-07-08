@@ -60,6 +60,29 @@
           }
         }
       }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('prodStorageAccountName')]",
+      "apiVersion": "2016-01-01",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
+      },
+      "tags": {
+          "Env": "prod"
+      },
+      "kind": "Storage",
+      "properties": {
+        "encryption": {
+          "keySource": "Microsoft.Storage",
+          "services": {
+            "blob": {
+              "enabled": "[parameters('blobEncryptionEnabled')]"
+            }
+          }
+        }
+      }
     }
   ],
   "outputs": { }
